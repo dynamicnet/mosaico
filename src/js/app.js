@@ -38,6 +38,10 @@ function _appendUrlParameters(baseUrl, parameters) {
 }
 
 var applyBindingOptions = function(options, ko) {
+  if( ! options.imgPlaceHolderBackend ){
+    console.warn("No backend configured for img placeholder");
+  }
+
 
   ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
     var queryParamSeparator;
@@ -56,8 +60,11 @@ var applyBindingOptions = function(options, ko) {
   };
 
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
-    var imgProcessorBackend = options.imgProcessorBackend ? options.imgProcessorBackend : './upload';
-    return _appendUrlParameters(imgProcessorBackend, { method: 'placeholder', params: width + "," + height });
+    if( ! options.imgPlaceHolderBackend ){
+     return;
+    }
+
+    return options.imgPlaceHolderBackend(width, height, text);
   };
 
   // pushes custom tinymce configurations from options to the binding

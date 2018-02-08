@@ -44,6 +44,16 @@ $(function() {
     fileuploadConfig: {
       url: basePath+'/upload/',
       // messages??
+    },
+
+    //
+    linkDialog: function(){
+      console.log("linkDialog");
+    },
+
+    // placeholder processor
+    imgPlaceHolderBackend: function(width, height, text){
+      return "http://via.placeholder.com/"+width+"x"+height;
     }
   }, plugins);
   if (!ok) {
