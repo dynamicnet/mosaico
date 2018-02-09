@@ -7,6 +7,7 @@ Goals:
 - [x] Callback for placeholder (Can use external, ex. placeholder.com, or your own)
 - [ ] Remove localstorage
 - [ ] Implement callback for saving and loading edits
-- [ ] French translation
+- [X] French translation
 - [ ] Add a "simple" file manager
 - [ ] Graphic customization
+- [ ] Merge tags via an option

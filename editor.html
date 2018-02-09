@@ -126,8 +126,16 @@ $(function() {
   if (basePath.lastIndexOf('?') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('?'));
   if (basePath.lastIndexOf('/') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('/'));
   var plugins;
+  
   // A basic plugin that expose the "viewModel" object as a global variable.
-  // plugins = [function(vm) {window.viewModel = vm;}];
+  plugins = [
+    function(vm) {vm.linkDialog = function(){
+      console.log("linkDialog", this);
+      $(this).val("http://test");
+
+    }}
+  ];
+
   var ok = Mosaico.init({
     strings: translations_fr,
     imgProcessorBackend: basePath+'/img/',
@@ -136,11 +144,6 @@ $(function() {
     fileuploadConfig: {
       url: basePath+'/upload/',
       // messages??
-    },
-
-    //
-    linkDialog: function(){
-      console.log("linkDialog");
     },
 
     // placeholder processor
