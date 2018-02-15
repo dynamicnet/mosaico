@@ -132,6 +132,7 @@ var _templateUrlConverter = function(basePath, url) {
 var templateLoader = function(performanceAwareCaller, templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
   var templateFile = typeof templateFileName == 'string' ? templateFileName : templateMetadata.template;
   var templatePath = "./";
+  console.log(templateFile);
   var p = templateFile.lastIndexOf('/');
   if (p != -1) {
     templatePath = templateFile.substr(0, p + 1);

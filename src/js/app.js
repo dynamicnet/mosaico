@@ -14,8 +14,6 @@ var colorPlugin = require("./ext/color.js");
 var utilPlugin = require("./ext/util.js");
 var inlinerPlugin = require("./ext/inliner.js");
 
-var localStorageLoader = require("./ext/localstorage.js");
-
 if (typeof ko == 'undefined') throw "Cannot find knockout.js library!";
 if (typeof $ == 'undefined') throw "Cannot find jquery library!";
 
@@ -68,14 +66,16 @@ var applyBindingOptions = function(options, ko) {
   };
 
   // pushes custom tinymce configurations from options to the binding
-  if (options && options.tinymceConfig)
+  if (options && options.tinymceConfig){
     ko.bindingHandlers.wysiwyg.standardOptions = options.tinymceConfig;
-  if (options && options.tinymceConfigFull)
+  }
+  if (options && options.tinymceConfigFull){
     ko.bindingHandlers.wysiwyg.fullOptions = options.tinymceConfigFull;
+  }
 };
 
 var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
-
+console.log("ici", templateFile, templateMetadata);
   templateLoader.fixPageEvents();
 
   var fileUploadMessagesExtension = function(vm) {
@@ -144,40 +144,17 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
 
 };
 
-var initFromLocalStorage = function(options, hash_key, customExtensions) {
-  try {
-    var lsData = localStorageLoader(hash_key, options.emailProcessorBackend);
-    var extensions = typeof customExtensions !== 'undefined' ? customExtensions : [];
-    extensions.push(lsData.extension);
-    var template = _canonicalize(lsData.metadata.template);
-    start(options, template, lsData.metadata, lsData.model, extensions);
-  } catch (e) {
-    console.error("TODO not found ", hash_key, e);
-  }
-};
-
 var init = function(options, customExtensions) {
+  var id = global.location.hash ? global.location.href.split("#")[1] : undefined;
 
-  var hash = global.location.hash ? global.location.href.split("#")[1] : undefined;
-
-  // Loading from configured template or configured metadata
-  if (options && (options.template || options.data)) {
-    if (options.data) {
-      var data = JSON.parse(options.data);
-      start(options, undefined, data.metadata, data.content, customExtensions);
-    } else {
-      start(options, options.template, undefined, undefined, customExtensions);
-    }
-    // Loading from LocalStorage (if url hash has a 7chars key)
-  } else if (hash && hash.length == 7) {
-    initFromLocalStorage(options, hash, customExtensions);
-    // Loading from template url as hash (if hash is not a valid localstorage key)
-  } else if (hash) {
-    start(options, _canonicalize(hash), undefined, undefined, customExtensions);
-  } else {
-    return false;
+  if (id) {
+    var d = options.onLoadContent(id,function( metadata, content ){
+      start(options, undefined, metadata, content, customExtensions);
+    });
+    return true;
   }
-  return true;
+
+  return false;
 };
 
 module.exports = {
