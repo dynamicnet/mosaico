@@ -185,7 +185,24 @@ a, a:link, a:visited {
     </div>
     <!-- /ko -->
     <div class="content" style="background-color: white; margin-top: -20px; padding-top: 15px; background-origin: border; padding-bottom: 2em">
-    <h3>Choose a master template</h3>
+    <h3>Choose a master template / modified</h3>
+    <p>
+      Creating a new "edit", only consist in the initialisation on a metadata object with props like :
+        created: unixtimestamp of creation date of the edit
+        key: an unique identifier used later to load back the edit in Mosaico
+        name : the template name
+        template: an path or url where the html content can be loaded via an XHR request
+    </p>
+    <div data-bind="foreach: templates">
+      <div class="template template-xx" style="" data-bind="attr: { class: 'template template-'+name }">
+        <div class="description" style="padding-bottom:5px"><b data-bind="text: name">xx</b>: <span data-bind="text: desc">xx</span></div>
+        <a href="#" data-bind="attr: { href: 'http://maildrop-mosaico.test.kwdev/new-edit.php?name='+name }">
+          <img src width="100%" alt="xx" data-bind="attr: { src: 'templates/'+name+'/edres/_full.png' }">
+        </a>
+      </div>
+    </div>
+
+    <h3>Choose a master template / Original</h3>
     <div data-bind="foreach: templates">
       <div class="template template-xx" style="" data-bind="attr: { class: 'template template-'+name }">
         <div class="description" style="padding-bottom:5px"><b data-bind="text: name">xx</b>: <span data-bind="text: desc">xx</span></div>
@@ -193,7 +210,7 @@ a, a:link, a:visited {
           <img src width="100%" alt="xx" data-bind="attr: { src: 'templates/'+name+'/edres/_full.png' }">
         </a>
       </div>
-    </div>
+    </div>      
     </div>
   </body>
 </html>

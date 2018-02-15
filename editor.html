@@ -125,18 +125,48 @@ $(function() {
   if (basePath.lastIndexOf('#') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('#'));
   if (basePath.lastIndexOf('?') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('?'));
   if (basePath.lastIndexOf('/') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('/'));
-  var plugins;
-  
-  // A basic plugin that expose the "viewModel" object as a global variable.
-  plugins = [
-    function(vm) {vm.linkDialog = function(){
-      console.log("linkDialog", this);
-      $(this).val("http://test");
 
-    }}
+
+  // A basic plugin that expose the "viewModel" object as a global variable.
+  var plugins = [
+    function(vm) {
+        vm.linkDialog = function(){
+            console.log("linkDialog", this);
+            $(this).val("http://test");
+        };
+
+        vm.editImage = function( src, done ){
+            console.log("editImage", this);
+            src = "http://image";
+        };
+
+        vm.save = {
+            name: 'Save',
+            enabled: ko.observable(true),
+            execute: function() {
+              vm.save.enabled(false);
+              
+              vm.metadata.changed = Date.now();
+
+              var data = {
+                metadata: vm.exportMetadata(),
+                content: vm.exportJSON()
+              };
+
+              $.post({
+                url: "http://maildrop-mosaico.test.kwdev/save.php",
+                data: data,
+                success: function(){
+                    vm.save.enabled(true);
+                }
+              });
+            }       
+        };
+    }
   ];
 
-  var ok = Mosaico.init({
+
+  var params = {
     strings: translations_fr,
     imgProcessorBackend: basePath+'/img/',
     emailProcessorBackend: basePath+'/dl/',
@@ -149,8 +179,27 @@ $(function() {
     // placeholder processor
     imgPlaceHolderBackend: function(width, height, text){
       return "http://via.placeholder.com/"+width+"x"+height;
-    }
-  }, plugins);
+    },
+
+    // save content callback
+    onSaveContent: function( metadata, json_content ){
+        console.log("save");
+    },
+
+    // load content callback
+    // once your content fetched, you have to call the callback function
+    // with 2 paramters (metadata, content)
+    onLoadContent: function( id, callback ){
+        console.log("onLoadContent");
+        // make an xhr request to load the template content;
+        $.get("http://maildrop-mosaico.test.kwdev/load-edit.php?id="+id, function(data){
+            callback(data.metadata, data.content);
+        })        
+    }  
+  };
+
+  var ok = Mosaico.init(params, plugins);
+
   if (!ok) {
     console.log("Missing initialization hash, redirecting to main entrypoint");
     document.location = ".";
