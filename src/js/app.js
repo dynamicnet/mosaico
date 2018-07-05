@@ -75,7 +75,9 @@ var applyBindingOptions = function(options, ko) {
 };
 
 var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
-console.log("ici", templateFile, templateMetadata);
+
+
+
   templateLoader.fixPageEvents();
 
   var fileUploadMessagesExtension = function(vm) {
