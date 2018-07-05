@@ -10,5 +10,5 @@ Goals:
 - [X] French translation
 - [ ] Add a "simple" file manager
 - [ ] Graphic customization
-- [ ] Merge tags via an option
+- [X] Merge tags via an option
 - [ ] Remove gallery

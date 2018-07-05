@@ -1,217 +1,296 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=1024, initial-scale=1">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=1024, initial-scale=1">
 
-    <link rel="canonical" href="http://mosaico.io" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+		<link rel="canonical" href="http://mosaico.io" />
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-    <script src="dist/vendor/jquery.min.js"></script>
-    <script src="dist/vendor/knockout.js"></script>
-    <script src="dist/vendor/jquery-ui.min.js"></script>
-    <script src="dist/vendor/jquery.ui.touch-punch.min.js"></script>
-    <script src="dist/vendor/load-image.all.min.js"></script>
-    <script src="dist/vendor/canvas-to-blob.min.js"></script>
-    <script src="dist/vendor/jquery.iframe-transport.js"></script>
-    <script src="dist/vendor/jquery.fileupload.js"></script>
-    <script src="dist/vendor/jquery.fileupload-process.js"></script>
-    <script src="dist/vendor/jquery.fileupload-image.js"></script>
-    <script src="dist/vendor/jquery.fileupload-validate.js"></script>
-    <script src="dist/vendor/knockout-jqueryui.min.js"></script>
-    <script src="dist/vendor/tinymce.min.js"></script>
+		<script src="dist/vendor/jquery.min.js"></script>
+		<script src="dist/vendor/knockout.js"></script>
+		<script src="dist/vendor/jquery-ui.min.js"></script>
+		<script src="dist/vendor/jquery.ui.touch-punch.min.js"></script>
+		<script src="dist/vendor/load-image.all.min.js"></script>
+		<script src="dist/vendor/canvas-to-blob.min.js"></script>
+		<script src="dist/vendor/jquery.iframe-transport.js"></script>
+		<script src="dist/vendor/jquery.fileupload.js"></script>
+		<script src="dist/vendor/jquery.fileupload-process.js"></script>
+		<script src="dist/vendor/jquery.fileupload-image.js"></script>
+		<script src="dist/vendor/jquery.fileupload-validate.js"></script>
+		<script src="dist/vendor/knockout-jqueryui.min.js"></script>
+		<script src="dist/vendor/tinymce.min.js"></script>
 
-    <script src="dist/mosaico.min.js?v=0.16"></script>
-    <script>
+		<script src="dist/mosaico.min.js?v=0.16"></script>
+		<script>
 $(function() {
-  if (!Mosaico.isCompatible()) {
-    alert('Update your browser!');
-    return;
-  }
-  
-  var translations_fr = {
-    "Download": "Télécharger",
-    "Test": "Test",
-    "Save": "Sauvegarder",
-    "Downloading...": "Téléchargement...",
-    "Invalid email address": "Adresse email invalide",
-    "Test email sent...": "Email de test envoyé...",
-    "Unexpected error talking to server: contact us!": "Erreur inattendue durant la communication avec le serveur : contactez-nous !",
-    "Insert here the recipient email address": "Insérez ici l'adresse email du destinataire",
-    "Test email address": "Adresse email de test",
-    "Block removed: use undo button to restore it...": "Bloc supprimé : utilisez le bouton annulation pour le restaurer...",
-    "New block added after the selected one (__pos__)": "Nouveau bloc ajouté après le bloc sélectionné (__pos__)",
-    "New block added at the model bottom (__pos__)": "Nouveau bloc ajouté au bas du modèle (__pos__)",
-    "Undo (#COUNT#)": "Annulation (#COUNT#)",
-    "Redo": "Rétablir",
-    "Selected element has no editable properties": "L'élément sélectionné n'a pas de propriétés éditables",
-    "This style is specific for this block: click here to remove the custom style and revert to the theme value": "Ce style est spécifique à ce bloc : cliquez-ici afin de supprimer le style personnalisé et de revenir à la valeur du thème",
-    "Switch between global and block level styles editing": "Alternez entre l'édition des styles au niveau global et au niveau du bloc",
-    "Undo last operation": "Annuler la dernière opération",
-    "Redo last operation": "Rétablir la dernière opération",
-    "Show image gallery": "Montrer la galerie d'images",
-    "Gallery": "Galerie",
-    "Preview": "Prévisualisation",
-    "Show live preview": "Montrer la prévisualisation en direct",
-    "Large screen": "Écran large",
-    "Tablet": "Tablette",
-    "Smartphone": "Smartphone",
-    "Show preview and send test": "Montrer la prévisualisation et envoyer un test",
-    "Download template": "Télécharger le template",
-    "Save template": "Sauvegarder le template",
-    "Saved model is obsolete": "Le modèle sauvegardé est obsolète",
-    "<p>The saved model has been created with a previous, non completely compatible version, of the template</p><p>Some content or style in the model <b>COULD BE LOST</b> if you will <b>save</b></p><p>Contact us for more informations!</p>": "<p>Le modèle sauvegardé a été créé avec une version précédente, non complètement compatible, du template.</p><p>Certains contenus ou styles du modèle <b>POURRAIENT ÊTRE PERDUS</b> si vous <b>savegardez</b></p><p>Contactez-nous pour plus d'informations !</p>",
-    "Blocks": "Blocs",
-    "Blocks ready to be added to the template": "Les blocs sont prêts à être ajoutés au template",
-    "Content": "Contenu",
-    "Edit content options": "Édition des options de contenu",
-    "Style": "Style",
-    "Edit style options": "Édition des options de style",
-    "Block __name__": "Bloc __name__",
-    "Click or drag to add this block to the template": "Cliquer ou glisser pour ajouter ce bloc au template",
-    "Add": "Ajouter",
-    "By clicking on message parts you will select a block and content options, if any, will show here": "En cliquant sur les parties du message, vous sélectionnerez les options de bloc et de contenu (s'il y en a) et elles seront affichées ici",
-    "By clicking on message parts you will select a block and style options, if available, will show here": "En cliquant sur les parties du message, vous sélectionnerez les options de bloc et de style (si disponible) et elles seront affichées ici",
-    "Click or drag files here": "Cliquer ou glisser de fichiers ici",
-    "No images uploaded, yet": "Il n'y a pas encore d'images uploadées",
-    "Show images from the gallery": "Montrer les images de la galerie",
-    "Loading...": "Chargement...",
-    "Load gallery": "Charger la galerie",
-    "Loading gallery...": "Chargement de la galerie...",
-    "The gallery is empty": "La galerie est vide",
-    "Remove image": "Supprimer une image",
-    "Open the image editing tool": "Ouvrir l'outil d'édition d'image",
-    "Upload a new image": "Uploader une nouvelle image",
-    "Drop an image here": "Déposer une image ici",
-    "Drop an image here or click the upload button": "Déposez une image ici ou cliquez sur le bouton d'upload",
-    "Drag this image and drop it on any template image placeholder": "Glissez cette image et déposez-la dans n'importe quel emplacement d'image",
-    "Gallery:": "Galerie:",
-    "Session images": "Images de session",
-    "Recents": "Récents",
-    "Remote gallery": "Galerie distante",
-    "Customized block.<ul><li>In this status changes to properties will be specific to the current block (instead of being global to all blocks in the same section)</li><li>A <span class=\"customStyled\"><span>\"small cube\" </span></span> icon beside the property will mark the customization. By clicking this icon the property value will be reverted to the value defined for the section.</li></ul>": "Blocs personnalisés.<ul><li>Ces changements dans les propriétés seront spécifiques au bloc en cours d'utilisation (au lieu d'être communs à tous les blocs de la même section)</li><li>L'icône <span class=\"customStyled\"><span>\"petit cube\" </span></span> à côté des propriétés marquera la personnalisation. En cliquant sur cettte icône les propriétés seront rétablies aux valeurs définies pour la section.</li></ul>",
-    "Drop here blocks from the \"Blocks\" tab": "Déposez ici des blocs venant de l'onglet \"Blocs\"",
-    "Drag this handle to move the block": "Faites glisser cette poignée pour déplacer le bloc",
-    "Move this block upside": "Déplacez ce bloc vers le haut",
-    "Move this block downside": "Déplacer ce bloc vers le bas",
-    "Delete block": "Supprimer ce bloc",
-    "Duplicate block": "Dupliquer ce bloc",
-    "Switch block variant": "Changer la version du bloc",
-    "Theme Colors,Standard Colors,Web Colors,Theme Colors,Back to Palette,History,No history yet.": "Couleurs de thème, Couleurs standard, Couleurs web, Couleurs de thème, Retour à la palette, Historique, Pas encore d'historique",
-    "Drop here": "Déposer ici",
-    "Unknown error": "Erreur inconue",
-    "Uploaded bytes exceed file size": "Le nombre de bytes chargés excède la taille du fichier",
-    "File type not allowed": "Type de fichier non-autorisé",
-    "File is too large": "Fichier trop lourd",
-    "The uploaded file exceeds the post_max_size directive in php.ini": "The uploaded file exceeds the post_max_size directive in php.ini",
-    "File is too big": "Le fichier est trop lourd",
-    "File is too small": "Le fichier est trop petit",
-    "Filetype not allowed": "Le type de fichier n'est pas autorisé",
-    "Maximum number of files exceeded": "Le nombre maximum de fichiers est dépassé",
-    "Image exceeds maximum width": "La largeur de l'image est trop grande",
-    "Image requires a minimum width": "L'image requiert une largeur minimum",
-    "Image exceeds maximum height": "La hauteur de l'image est trop grande",
-    "Image requires a minimum height": "L'image requiert une hauteur minimum",
-    "File upload aborted": "L'upload de l'image a échoué",
-    "Failed to resize image": "Impossible de redimensionner l'image",
-    "Unexpected upload error": "Erreur d'upload inattendue",
-    "Unexpected error listing files": "Impossible de lister les fichiers"
+	if (!Mosaico.isCompatible()) {
+		alert('Update your browser!');
+		return;
+	}
+
+	var merge_tags = [
+		{title: "Unsu",value:"{$Unsub}"},
+		{title:"WV",value:"{$Wv}"}
+	];
+
+	var translations_fr = {
+		"Download": "Télécharger",
+		"Test": "Test",
+		"Save": "Sauvegarder",
+		"Downloading...": "Téléchargement...",
+		"Invalid email address": "Adresse email invalide",
+		"Test email sent...": "Email de test envoyé...",
+		"Unexpected error talking to server: contact us!": "Erreur inattendue durant la communication avec le serveur : contactez-nous !",
+		"Insert here the recipient email address": "Insérez ici l'adresse email du destinataire",
+		"Test email address": "Adresse email de test",
+		"Block removed: use undo button to restore it...": "Bloc supprimé : utilisez le bouton annulation pour le restaurer...",
+		"New block added after the selected one (__pos__)": "Nouveau bloc ajouté après le bloc sélectionné (__pos__)",
+		"New block added at the model bottom (__pos__)": "Nouveau bloc ajouté au bas du modèle (__pos__)",
+		"Undo (#COUNT#)": "Annulation (#COUNT#)",
+		"Redo": "Rétablir",
+		"Selected element has no editable properties": "L'élément sélectionné n'a pas de propriétés éditables",
+		"This style is specific for this block: click here to remove the custom style and revert to the theme value": "Ce style est spécifique à ce bloc : cliquez-ici afin de supprimer le style personnalisé et de revenir à la valeur du thème",
+		"Switch between global and block level styles editing": "Alternez entre l'édition des styles au niveau global et au niveau du bloc",
+		"Undo last operation": "Annuler la dernière opération",
+		"Redo last operation": "Rétablir la dernière opération",
+		"Show image gallery": "Montrer la galerie d'images",
+		"Gallery": "Galerie",
+		"Preview": "Prévisualisation",
+		"Show live preview": "Montrer la prévisualisation en direct",
+		"Large screen": "Écran large",
+		"Tablet": "Tablette",
+		"Smartphone": "Smartphone",
+		"Show preview and send test": "Montrer la prévisualisation et envoyer un test",
+		"Download template": "Télécharger le template",
+		"Save template": "Sauvegarder le template",
+		"Saved model is obsolete": "Le modèle sauvegardé est obsolète",
+		"<p>The saved model has been created with a previous, non completely compatible version, of the template</p><p>Some content or style in the model <b>COULD BE LOST</b> if you will <b>save</b></p><p>Contact us for more informations!</p>": "<p>Le modèle sauvegardé a été créé avec une version précédente, non complètement compatible, du template.</p><p>Certains contenus ou styles du modèle <b>POURRAIENT ÊTRE PERDUS</b> si vous <b>savegardez</b></p><p>Contactez-nous pour plus d'informations !</p>",
+		"Blocks": "Blocs",
+		"Blocks ready to be added to the template": "Les blocs sont prêts à être ajoutés au template",
+		"Content": "Contenu",
+		"Edit content options": "Édition des options de contenu",
+		"Style": "Style",
+		"Edit style options": "Édition des options de style",
+		"Block __name__": "Bloc __name__",
+		"Click or drag to add this block to the template": "Cliquer ou glisser pour ajouter ce bloc au template",
+		"Add": "Ajouter",
+		"By clicking on message parts you will select a block and content options, if any, will show here": "En cliquant sur les parties du message, vous sélectionnerez les options de bloc et de contenu (s'il y en a) et elles seront affichées ici",
+		"By clicking on message parts you will select a block and style options, if available, will show here": "En cliquant sur les parties du message, vous sélectionnerez les options de bloc et de style (si disponible) et elles seront affichées ici",
+		"Click or drag files here": "Cliquer ou glisser de fichiers ici",
+		"No images uploaded, yet": "Il n'y a pas encore d'images uploadées",
+		"Show images from the gallery": "Montrer les images de la galerie",
+		"Loading...": "Chargement...",
+		"Load gallery": "Charger la galerie",
+		"Loading gallery...": "Chargement de la galerie...",
+		"The gallery is empty": "La galerie est vide",
+		"Remove image": "Supprimer une image",
+		"Open the image editing tool": "Ouvrir l'outil d'édition d'image",
+		"Upload a new image": "Uploader une nouvelle image",
+		"Drop an image here": "Déposer une image ici",
+		"Drop an image here or click the upload button": "Déposez une image ici ou cliquez sur le bouton d'upload",
+		"Drag this image and drop it on any template image placeholder": "Glissez cette image et déposez-la dans n'importe quel emplacement d'image",
+		"Gallery:": "Galerie:",
+		"Session images": "Images de session",
+		"Recents": "Récents",
+		"Remote gallery": "Galerie distante",
+		"Customized block.<ul><li>In this status changes to properties will be specific to the current block (instead of being global to all blocks in the same section)</li><li>A <span class=\"customStyled\"><span>\"small cube\" </span></span> icon beside the property will mark the customization. By clicking this icon the property value will be reverted to the value defined for the section.</li></ul>": "Blocs personnalisés.<ul><li>Ces changements dans les propriétés seront spécifiques au bloc en cours d'utilisation (au lieu d'être communs à tous les blocs de la même section)</li><li>L'icône <span class=\"customStyled\"><span>\"petit cube\" </span></span> à côté des propriétés marquera la personnalisation. En cliquant sur cettte icône les propriétés seront rétablies aux valeurs définies pour la section.</li></ul>",
+		"Drop here blocks from the \"Blocks\" tab": "Déposez ici des blocs venant de l'onglet \"Blocs\"",
+		"Drag this handle to move the block": "Faites glisser cette poignée pour déplacer le bloc",
+		"Move this block upside": "Déplacez ce bloc vers le haut",
+		"Move this block downside": "Déplacer ce bloc vers le bas",
+		"Delete block": "Supprimer ce bloc",
+		"Duplicate block": "Dupliquer ce bloc",
+		"Switch block variant": "Changer la version du bloc",
+		"Theme Colors,Standard Colors,Web Colors,Theme Colors,Back to Palette,History,No history yet.": "Couleurs de thème, Couleurs standard, Couleurs web, Couleurs de thème, Retour à la palette, Historique, Pas encore d'historique",
+		"Drop here": "Déposer ici",
+		"Unknown error": "Erreur inconue",
+		"Uploaded bytes exceed file size": "Le nombre de bytes chargés excède la taille du fichier",
+		"File type not allowed": "Type de fichier non-autorisé",
+		"File is too large": "Fichier trop lourd",
+		"The uploaded file exceeds the post_max_size directive in php.ini": "The uploaded file exceeds the post_max_size directive in php.ini",
+		"File is too big": "Le fichier est trop lourd",
+		"File is too small": "Le fichier est trop petit",
+		"Filetype not allowed": "Le type de fichier n'est pas autorisé",
+		"Maximum number of files exceeded": "Le nombre maximum de fichiers est dépassé",
+		"Image exceeds maximum width": "La largeur de l'image est trop grande",
+		"Image requires a minimum width": "L'image requiert une largeur minimum",
+		"Image exceeds maximum height": "La hauteur de l'image est trop grande",
+		"Image requires a minimum height": "L'image requiert une hauteur minimum",
+		"File upload aborted": "L'upload de l'image a échoué",
+		"Failed to resize image": "Impossible de redimensionner l'image",
+		"Unexpected upload error": "Erreur d'upload inattendue",
+		"Unexpected error listing files": "Impossible de lister les fichiers"
 };
 
 
 
-  var basePath = window.location.href;
-  if (basePath.lastIndexOf('#') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('#'));
-  if (basePath.lastIndexOf('?') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('?'));
-  if (basePath.lastIndexOf('/') > 0) basePath = basePath.substr(0, basePath.lastIndexOf('/'));
+	// A basic plugin that expose the "viewModel" object as a global variable.
+	var plugins = [
+		function(vm) {
+				vm.linkDialog = function(){
+					var that = this;
+					var callback = function( value_url ){
+						// Need to trigger change event in order to works
+						$(that).val(value_url).change();
+					}
+					FileManager.open(callback, id);
+				};
 
+				vm.editImage = function( src, done ){
+						console.log("editImage", this);
+						src = "http://image";
+				};
 
-  // A basic plugin that expose the "viewModel" object as a global variable.
-  var plugins = [
-    function(vm) {
-        vm.linkDialog = function(){
-            console.log("linkDialog", this);
-            $(this).val("http://test");
-        };
+				vm.save = {
+						name: 'Save',
+						enabled: ko.observable(true),
+						execute: function() {
+							vm.save.enabled(false);
 
-        vm.editImage = function( src, done ){
-            console.log("editImage", this);
-            src = "http://image";
-        };
+							vm.metadata.changed = Date.now();
 
-        vm.save = {
-            name: 'Save',
-            enabled: ko.observable(true),
-            execute: function() {
-              vm.save.enabled(false);
-              
-              vm.metadata.changed = Date.now();
+							var data = {
+								metadata: vm.exportMetadata(),
+								content_html: vm.exportHTML(),
+								content_json: vm.exportJSON()
+							};
 
-              var data = {
-                metadata: vm.exportMetadata(),
-                content: vm.exportJSON()
-              };
+							$.post({
+								url: "http://maildrop-mosaico.test.kwdev/save.php",
+								data: data,
+								success: function(){
+										vm.save.enabled(true);
+								}
+							});
+						}
+				};
+		}
+	];
 
-              $.post({
-                url: "http://maildrop-mosaico.test.kwdev/save.php",
-                data: data,
-                success: function(){
-                    vm.save.enabled(true);
-                }
-              });
-            }       
-        };
-    }
-  ];
+var id = location.hash ? location.href.split("#")[1] : undefined;
 
+	var params = {
+		// id of the "edit" that will be loaded trought the "onLoadContent" callback
+		// your id, your "onLoadContent" callback, your problem
+		loaded_id: id,
+		strings: translations_fr,
+		imgProcessorBackend: "http://maildrop-mosaico.test.kwdev/img.php?id="+id,
+		fileuploadConfig: {
+			url: "http://maildrop-mosaico.test.kwdev/upload.php?id="+id,
+		},
 
-  var params = {
-    strings: translations_fr,
-    imgProcessorBackend: basePath+'/img/',
-    emailProcessorBackend: basePath+'/dl/',
-    titleToken: "MOSAICO Responsive Email Designer",
-    fileuploadConfig: {
-      url: basePath+'/upload/',
-      // messages??
-    },
+		// placeholder processor
+		imgPlaceHolderBackend: function(width, height, text){
+			return "http://via.placeholder.com/"+width+"x"+height;
+		},
 
-    // placeholder processor
-    imgPlaceHolderBackend: function(width, height, text){
-      return "http://via.placeholder.com/"+width+"x"+height;
-    },
+		// load content callback
+		// once your content fetched, you have to call the callback function
+		// with 2 paramters (metadata, content)
+		onLoadContent: function( id, callback ){
+				console.log("onLoadContent");
+				// make an xhr request to load the template content;
+				$.get("http://maildrop-mosaico.test.kwdev/load-edit.php?id="+id, function(data){
+						callback(data.metadata, data.content);
+				})
+		},
 
-    // save content callback
-    onSaveContent: function( metadata, json_content ){
-        console.log("save");
-    },
+		tinymceConfigFull: {
+			toolbar1: 'bold italic forecolor backcolor hr styleselect removeformat | link unlink | pastetext code',
+			//toolbar1: "bold italic | forecolor backcolor | link unlink | hr | pastetext code", // | newsletter_profile newsletter_optlink newsletter_unsubscribe newsletter_showlink";
+			//toolbar2: "formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist",
+			plugins: ["link hr paste lists textcolor code"],
+			link_list: merge_tags,
+			// valid_elements: 'strong/b,em/i,*[*]',
+			// extended_valid_elements: 'strong/b,em/i,*[*]',
+			// Removed: image fullscreen contextmenu
+			// download custom:
+			// jquery version con legacyoutput, anchor, code, importcss, link, paste, textcolor, hr, lists
+			file_browser_callback: function( field_name, url, type, win ){
+				var callback = function( value_url ){
+					$("#"+field_name).val(value_url);
+				}
+				FileManager.open( callback );
+			}
+		}
+	};
 
-    // load content callback
-    // once your content fetched, you have to call the callback function
-    // with 2 paramters (metadata, content)
-    onLoadContent: function( id, callback ){
-        console.log("onLoadContent");
-        // make an xhr request to load the template content;
-        $.get("http://maildrop-mosaico.test.kwdev/load-edit.php?id="+id, function(data){
-            callback(data.metadata, data.content);
-        })        
-    }  
-  };
+	var ok = Mosaico.init(params, plugins);
 
-  var ok = Mosaico.init(params, plugins);
-
-  if (!ok) {
-    console.log("Missing initialization hash, redirecting to main entrypoint");
-    document.location = ".";
-  }
+	if (!ok) {
+		console.log("Missing initialization hash, redirecting to main entrypoint");
+		document.location = ".";
+	}
 });
-    </script>
-    
-    <link rel="stylesheet" href="dist/mosaico-material.min.css?v=0.10" />
-    <link rel="stylesheet" href="dist/vendor/notoregular/stylesheet.css" />
-  </head>
-  <body class="mo-standalone">
 
 
-  </body>
+
+FileManager = (function(){
+	var module = {};
+	var overlay, container;
+	var callback;
+
+	function close(){
+		hideOverlay();
+		hideUi();
+	}
+
+	function showOverlay() {
+		if( overlay ){
+			overlay.show();
+			return;
+		}
+		overlay = $('<div class="overlay"></div>');
+		$("body").append(overlay);
+
+		overlay.click(close);
+	}
+
+	function hideOverlay(){
+		overlay.hide();
+	}
+
+	function loadUi(){
+		if( !container ){
+			container = $('<div class="FM_Container"></div>');
+			$("body").append(container);
+			container.on("click", ".insert_url", function(){
+				callback($(this).data("url"));
+				close();
+			});
+		}
+
+		$.get("http://maildrop-mosaico.test.kwdev/fm-ui.php",function( html ){
+			container.show();
+
+			var $html = $(html);
+			container.html($html);
+		});
+	}
+
+	function hideUi(){
+		container.hide();
+	}
+
+	module.open = function( p_callback , id ){
+		showOverlay();
+
+		loadUi();
+
+		callback = p_callback;
+	}
+
+	return module;
+})()
+		</script>
+
+		<link rel="stylesheet" href="dist/mosaico-material.min.css?v=0.10" />
+		<link rel="stylesheet" href="dist/vendor/notoregular/stylesheet.css" />
+	</head>
+	<body class="mo-standalone">
+
+
+	</body>
 </html>

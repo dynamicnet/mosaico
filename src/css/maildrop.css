@@ -1,0 +1,24 @@
+.overlay {
+    background: rgba(128, 128,128, .5);
+    z-index: 65537;
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+.FM_Container {
+    background: white;
+    width: 800px;
+    height: 600px;
+    position: absolute;
+    z-index: 66000;
+    left: calc((100vw - 800px) / 2);
+    top: 50px;
+}
+
+.mce-title {
+    color: #FFF !important;
+}

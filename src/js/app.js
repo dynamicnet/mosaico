@@ -145,10 +145,8 @@ console.log("ici", templateFile, templateMetadata);
 };
 
 var init = function(options, customExtensions) {
-  var id = global.location.hash ? global.location.href.split("#")[1] : undefined;
-
-  if (id) {
-    var d = options.onLoadContent(id,function( metadata, content ){
+  if (options.loaded_id) {
+    var d = options.onLoadContent(options.loaded_id,function( metadata, content ){
       start(options, undefined, metadata, content, customExtensions);
     });
     return true;
