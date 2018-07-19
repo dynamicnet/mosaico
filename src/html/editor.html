@@ -121,7 +121,10 @@ $(function() {
 					var callback = function( value_url ){
 						// Need to trigger change event in order to works
 						$(that).val(value_url).change();
+						return true;
+
 					}
+
 					FileManager.open(callback, id);
 				};
 
@@ -133,29 +136,43 @@ $(function() {
 				};
 				*/
 
+
+				/**
+				 *	Opens the filemanger to let the user choose or upload an image
+				 */
+				vm.selectImage = function (_src) {
+					var callback = function (value_src) {
+						_src(value_src);
+						return true;
+					}
+
+					FileManager.open(callback, id, "image");
+				};
+
 				vm.save = {
 						name: 'Save',
 						enabled: ko.observable(true),
 						execute: function() {
 							vm.save.enabled(false);
 
-							vm.metadata.changed = Date.now();
-
-							var data = {
-								metadata: vm.exportMetadata(),
-								content_html: vm.exportHTML(),
-								content_json: vm.exportJSON()
-							};
-
-							$.post({
-								url: "http://maildrop-mosaico.test.kwdev/save.php",
-								data: data,
-								success: function(){
-										vm.save.enabled(true);
-								}
+							save(vm, function(){
+								vm.save.enabled(true);
 							});
 						}
 				};
+
+			vm.save_and_exit = {
+				name: 'ÉTAPE SUIVANTE',
+				enabled: ko.observable(true),
+				execute: function () {
+					vm.save_and_exit.enabled(false);
+
+					save(vm, function () {
+						vm.save_and_exit.enabled(true);
+						document.location.href="snapshot";
+					});
+				}
+			};
 		}
 	];
 
@@ -240,7 +257,7 @@ FileManager = (function(){
 		overlay.hide();
 	}
 
-	function loadUi(){
+	function loadUi(type){
 		if( !container ){
 			container = $('<div class="FM_Container"></div>');
 			$("body").append(container);
@@ -250,7 +267,9 @@ FileManager = (function(){
 			});
 		}
 
-		$.get("http://maildrop-mosaico.test.kwdev/fm-ui.php",function( html ){
+		var param_type = type || "all";
+
+		$.get("http://maildrop-mosaico.test.kwdev/fm-ui.php?type="+param_type, function( html ){
 			container.show();
 
 			var $html = $(html);
@@ -262,16 +281,33 @@ FileManager = (function(){
 		container.hide();
 	}
 
-	module.open = function( p_callback , id ){
+	module.open = function( p_callback , id, type ){
 		showOverlay();
 
-		loadUi();
+		loadUi(type);
 
 		callback = p_callback;
 	}
 
 	return module;
 })()
+
+
+function save( viewmodel, callback ){
+	viewmodel.metadata.changed = Date.now();
+
+	var data = {
+		metadata: viewmodel.exportMetadata(),
+		content_html: viewmodel.exportHTML(),
+		content_json: viewmodel.exportJSON()
+	};
+
+	$.post({
+		url: "http://maildrop-mosaico.test.kwdev/save.php",
+		data: data,
+		success: callback
+	});
+}
 		</script>
 
 	<link rel="stylesheet" href="rs/mosaico-libs.min.css?v=__VERSION__" />
