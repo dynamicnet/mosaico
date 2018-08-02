@@ -42,19 +42,9 @@ var applyBindingOptions = function(options, ko) {
 
 
   ko.bindingHandlers.wysiwygSrc.convertedUrl = function(src, method, width, height) {
-    var queryParamSeparator;
-    var imgProcessorBackend = options.imgProcessorBackend ? options.imgProcessorBackend : './upload';
-    var backEndMatch = imgProcessorBackend.match(/^(https?:\/\/[^\/]*\/).*$/);
-    var srcMatch = src.match(/^(https?:\/\/[^\/]*\/).*$/);
-    if (backEndMatch === null || (srcMatch !== null && backEndMatch[1] == srcMatch[1])) {
-      queryParamSeparator = imgProcessorBackend.indexOf('?') == -1 ? '?' : '&';
-      return _appendUrlParameters(imgProcessorBackend, { src: src, method: method, params: width + "," + height });
-    } else {
-      console.log("Cannot apply backend image resizing to non-local resources ", src, method, width, height, backEndMatch, srcMatch);
-      var params = { method: method, width: width };
-      if (height !== null) params['height'] = height;
-      return _appendUrlParameters(src, params);
-    }
+    var params = { method: method, width: width };
+    if (height !== null) params['height'] = height;
+    return _appendUrlParameters(src, params);
   };
 
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
