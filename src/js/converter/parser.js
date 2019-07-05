@@ -222,10 +222,14 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
     } else {
       var width = domutils.getAttribute(element, 'width');
       if (width === '') width = null;
+
+      /*
       if (width === null) {
         console.error("ERROR: data-ko-editable images must declare a WIDTH attribute!", element);
         throw "ERROR: data-ko-editable images must declare a WIDTH attribute!";
       }
+      */
+
       var height = domutils.getAttribute(element, 'height');
       if (height === '') height = null;
 
@@ -253,11 +257,20 @@ var processBlock = function(element, defs, themeUpdater, blockPusher, templateUr
       var size;
       if (width && height) {
         size = width + "+'x'+" + height;
-      } else if (!height) {
+      }
+
+      if (!height && width) {
         size = "'w'+" + width + "+''";
-      } else if (!width) {
+      }
+
+      if (!width && height) {
         size = "'h'+" + height + "+''";
       }
+
+      if (!width && !height) {
+        size="''";
+      }
+
       var placeholdersrc;
       var plheight = height || domutils.getAttribute(element, 'data-ko-placeholder-height');
       var plwidth = width || domutils.getAttribute(element, 'data-ko-placeholder-width');
